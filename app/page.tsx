@@ -21,20 +21,20 @@ export default function Page() {
   } = useDatabaseOperations();
 
   return (
-    <main className="flex flex-col items-center justify-center h-screen gap-4">
-      <div className="flex shrink-0 items-center justify-center rounded-lg p-4">
+    <main className="flex flex-col items-center justify-start min-h-screen gap-4 p-2 md:p-4">
+      <div className="flex shrink-0 items-center justify-center rounded-lg p-2 md:p-4">
         <SQLiteLogo />
       </div>
-      <div className="flex flex-col items-center justify-center w-2/3 h-52 md:h-[600px]">
-        {state.error && <div className="text-red-500 mb-2">{state.error}</div>}
+      <div className="flex flex-col items-center w-full md:w-2/3">
+        {state.error && <div className="text-red-500 mb-2 px-2">{state.error}</div>}
         {state.results?.kind === "update" && (
-          <div className="text-green-500 mb-2">{state.results.message}</div>
+          <div className="text-green-500 mb-2 px-2">{state.results.message}</div>
         )}
-        <div className="fixed top-4 right-4 z-50 w-72">
+        <div className="fixed top-4 right-4 z-50 w-72 max-w-[90vw]">
           <UpdateSuccess showSuccess={showSuccess} />
         </div>
-        <div className="flex flex-col w-full h-full gap-4">
-          <div className="flex w-full h-full">
+        <div className="flex flex-col w-full gap-4">
+          <div className="w-full h-[300px] md:h-[500px]">
             <Editor value={state.sqlQuery} onChange={setSqlQuery} />
           </div>
           <DatabaseControls
@@ -46,12 +46,14 @@ export default function Page() {
           />
         </div>
       </div>
-      <div className="w-2/3 flex justify-center">
-        {state.results?.kind === "query" ? (
-          <DataTable results={state.results.results} />
-        ) : (
-          state.schemaInfo && <SchemaInfo schemaInfo={state.schemaInfo} />
-        )}
+      <div className="w-full md:w-2/3 flex justify-center mt-4">
+        <div className="w-full">
+          {state.results?.kind === "query" ? (
+            <DataTable results={state.results.results} />
+          ) : (
+            state.schemaInfo && <SchemaInfo schemaInfo={state.schemaInfo} />
+          )}
+        </div>
       </div>
     </main>
   );
