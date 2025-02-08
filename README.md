@@ -1,10 +1,12 @@
 <div align="center">
   <img src="https://cdn.simpleicons.org/sqlite/003B57" alt="SQLite Logo" width="100"/>
-  <h1>SQLite 在线查询工具</h1>
-  <p>直接在浏览器中执行 SQLite 查询的轻量级工具</p>
+  <h1>SQLite Online Query Tool</h1>
+  <p>A lightweight tool for executing SQLite queries directly in your browser</p>
 </div>
 
-# SQLite 查询工具
+English | [简体中文](./README-zh_CN.md)
+
+# SQLite Query Tool
 
 [![React](https://img.shields.io/badge/React-18.0-blue?logo=react&style=for-the-badge)](https://react.dev/)
 [![Next.js](https://img.shields.io/badge/Next.js-15.0-black?logo=next.js&style=for-the-badge)](https://nextjs.org/)
@@ -12,60 +14,60 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript&style=for-the-badge)](https://www.typescriptlang.org/)
 [![SQLite](https://img.shields.io/badge/SQLite-3.0-003B57?logo=sqlite&style=for-the-badge)](https://www.sqlite.org/)
 
-## ✨ 功能特性
-- 📝 内置 SQL 编辑器（语法高亮 + 自动补全）
-- 📁 支持上传 SQLite 数据库文件（.db/.sqlite）
-- ⚡ 实时执行 SQL 查询并显示表格结果
-- 📥 查询结果导出为 CSV/JSON 格式
+## ✨ Features
+- 📝 Built-in SQL Editor (Syntax highlighting + Auto-completion)
+- 📁 Support for SQLite database file upload (.db/.sqlite)
+- ⚡ Real-time SQL query execution with table results
+- 📥 Export query results to CSV/JSON formats
 
-## 🚀 快速开始
-### 环境要求
+## 🚀 Quick Start
+### Prerequisites
 - Node.js 18+
 - pnpm 8+
 
-### 安装运行
+### Installation & Running
 ```bash
-# 克隆项目
+# Clone the repository
 git clone https://github.com/your-username/sqlite-query-tool.git
 
-# 安装依赖
+# Install dependencies
 pnpm install
 
-# 开发模式
+# Development mode
 pnpm dev
 
-# 生产构建
+# Production build
 pnpm build
 pnpm start
 ```
 
-## 🛠️ 使用说明
-1. **上传数据库**  
-   点击"上传"按钮，选择本地的 SQLite 数据库文件（.db 或 .sqlite）
+## 🛠️ Usage Guide
+1. **Upload Database**  
+   Click the "Upload" button and select a local SQLite database file (.db or .sqlite)
 
-2. **编写 SQL**  
-   在编辑器中输入要执行的 SQL 语句
+2. **Write SQL**  
+   Enter your SQL query in the editor
 
-3. **执行查询**  
-   点击"执行"按钮运行 SQL
+3. **Execute Query**  
+   Click the "Execute" button to run the SQL
 
-4. **查看结果**  
-   - 成功查询：表格形式展示结果，支持排序和分页
-   - 执行错误：红色高亮显示错误信息
-   - 空结果：显示"无数据"提示
+4. **View Results**  
+   - Successful query: Results displayed in a table with sorting and pagination
+   - Execution error: Error message highlighted in red
+   - Empty result: "No data" message shown
 
-## 🤝 参与贡献
-欢迎通过 Issue 或 PR 参与改进：
-1. Fork 项目仓库
-2. 创建特性分支 (`git checkout -b feature/your-feature`)
-3. 提交修改 (`git commit -m 'Add some feature'`)
-4. 推送分支 (`git push origin feature/your-feature`)
-5. 创建 Pull Request
+## 🤝 Contributing
+Contributions via Issues or PRs are welcome:
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/your-feature`)
+3. Commit your changes (`git commit -m 'Add some feature'`)
+4. Push to the branch (`git push origin feature/your-feature`)
+5. Create a Pull Request
 
-## 📄 开源协议
-本项目基于 [MIT License](LICENSE) 开源
+## 📄 License
+This project is licensed under the [MIT License](LICENSE)
 
-## 📌 注意事项
-1. 数据库文件仅存储在服务端内存中，刷新页面后需要重新上传
-2. 复杂查询可能导致浏览器卡顿，建议使用 LIMIT 限制结果集
-3. 请勿上传包含敏感信息的数据库文件
+## 📌 Notes
+1. Database files are only stored in server memory and need to be re-uploaded after page refresh
+2. Complex queries may cause browser lag, consider using LIMIT to restrict result sets
+3. Do not upload database files containing sensitive information
