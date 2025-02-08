@@ -5,7 +5,7 @@ import { executeQuery, uploadDb, createNewDb, exportDb, getSchemaInfo } from "@/
 
 export const useDatabaseOperations = () => {
   const [state, setState] = useState<DatabaseState>({
-    sqlQuery: "",
+    sqlQuery: "-- 查看表结构\nSELECT * FROM sqlite_master;",
     error: null,
     results: null,
     isLoading: false,
