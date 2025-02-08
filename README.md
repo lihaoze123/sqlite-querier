@@ -1,4 +1,4 @@
-![SQLite Querier Logo](./public/logo.png)
+<img align="center" src="./public/logo.png" alt="SQLite Querier Logo" style="margin-bottom: 10px;" />
 
 <div align="center">
   <p>A lightweight tool for executing SQLite queries directly in your browser</p>
