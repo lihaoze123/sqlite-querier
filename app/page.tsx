@@ -1,16 +1,13 @@
 "use client";
 
-import { useState, useRef } from "react";
 import Editor from "@/app/ui/components/editor";
-import { Button } from "@/app/ui/components/button";
 import SQLiteLogo from "@/app/ui/components/sqlite-logo";
-import { exportFile } from "@/app/lib/utils";
-import { DatabaseState } from "@/app/lib/definitions";
 import { DatabaseControls } from "@/app/ui/components/database/database-controls";
 import { useDatabaseOperations } from "@/app/lib/hooks";
 import UpdateSuccess from "@/app/ui/components/database/update-success";
 import DataTable from "@/app/ui/components/database/table";
 import SchemaInfo from "@/app/ui/components/database/schema-info";
+
 export default function Page() {
   const {
     state,
