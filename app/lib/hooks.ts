@@ -1,73 +1,142 @@
 import { useState, useRef } from "react";
 import { DatabaseState } from "@/app/lib/definitions";
 import { exportFile } from "@/app/lib/utils";
+import { executeQuery, uploadDb, createNewDb, exportDb, getSchemaInfo } from "@/app/lib/actions";
 
 export const useDatabaseOperations = () => {
   const [state, setState] = useState<DatabaseState>({
     sqlQuery: "",
-    dbFile: undefined,
     error: null,
+    results: null,
+    isLoading: false,
+    schemaInfo: null
   });
+  const [showSuccess, setShowSuccess] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const setSqlQuery = (query: string) => {
     setState(prev => ({ ...prev, sqlQuery: query }));
   };
 
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      setState(prev => ({ ...prev, error: null }));
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const content = e.target?.result as ArrayBuffer;
+      setState(prev => ({ ...prev, error: null, isLoading: true }));
+      try {
+        const buffer = await file.arrayBuffer();
+        await uploadDb(buffer);
+        const schemaInfo = await getSchemaInfo();
         setState(prev => ({
           ...prev,
-          dbFile: content,
-          isLoading: false
+          error: null,
+          isLoading: false,
+          schemaInfo
         }));
-      };
-      reader.onerror = () => {
+        setShowSuccess(true);
+        setTimeout(() => setShowSuccess(false), 3000); // 3秒后自动隐藏
+      } catch (err) {
+        console.error('上传数据库失败:', err);
         setState(prev => ({
           ...prev,
-          error: "文件读取失败",
-          isLoading: false
+          error: err instanceof Error ? err.message : '未知错误',
+          isLoading: false,
+          schemaInfo: null
         }));
-      };
-      reader.readAsArrayBuffer(file);
+      }
     }
   };
 
-  const handleCreateNewDb = () => {
-    setState(prev => ({ ...prev, dbFile: undefined, error: null }));
-  };
-
-  const handleExportDb = () => {
-    if (!state.dbFile) {
-      setState(prev => ({ ...prev, error: "没有可导出的数据库" }));
-      return;
-    }
-
+  const handleCreateNewDb = async () => {
+    setState(prev => ({ ...prev, error: null, isLoading: true }));
     try {
-      const date = new Date().toLocaleDateString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit' });
-      exportFile(state.dbFile, `database-${date}.db`);
+      await createNewDb();
+      const schemaInfo = await getSchemaInfo();
+      setState(prev => ({
+        ...prev,
+        error: null,
+        isLoading: false,
+        schemaInfo
+      }));
+    } catch (err) {
+      console.error('创建数据库失败:', err);
+      setState(prev => ({
+        ...prev,
+        error: err instanceof Error ? err.message : '未知错误',
+        isLoading: false,
+        schemaInfo: null
+      }));
+    }
+  };
+
+  const handleExportDb = async () => {
+    setState(prev => ({ ...prev, error: null, isLoading: true }));
+    try {
+      const buffer = await exportDb();
+      if (buffer) {
+        const date = new Date().toISOString().split('.')[0].replace(/-|:|T/g, '');
+        exportFile(buffer, `database-${date}.db`);
+      }
+      setState(prev => ({
+        ...prev,
+        error: null,
+        isLoading: false
+      }));
     } catch (err) {
       console.error('导出数据库失败:', err);
-      setState(prev => ({ ...prev, error: "导出数据库失败,请重试" }));
+      setState(prev => ({
+        ...prev,
+        error: err instanceof Error ? err.message : '未知错误',
+        isLoading: false
+      }));
     }
   };
 
-  const handleExecuteQuery = () => {
+  const handleExecuteQuery = async () => {
     if (!state.sqlQuery.trim()) {
       setState(prev => ({ ...prev, error: "请输入SQL查询语句" }));
       return;
     }
-    console.log("SQL Query:", state.sqlQuery);
-    // TODO: 实现实际的查询逻辑
+
+    setState(prev => ({ ...prev, isLoading: true, error: null }));
+
+    try {
+      const results = await executeQuery(state.sqlQuery);
+      if (!results) {
+        throw new Error("执行查询失败：未收到结果");
+      }
+      
+      if (results.kind === "update" && 
+          /^(CREATE|ALTER|DROP)\s+TABLE/i.test(state.sqlQuery.trim())) {
+        const schemaInfo = await getSchemaInfo();
+        setState(prev => ({
+          ...prev,
+          results,
+          schemaInfo,
+          error: null,
+          isLoading: false
+        }));
+      } else {
+        setState(prev => ({
+          ...prev,
+          results,
+          error: null,
+          isLoading: false
+        }));
+      }
+    } catch (err: unknown) {
+      console.error('执行查询失败:', err);
+      setState(prev => ({
+        ...prev,
+        error: err instanceof Error ? err.message : '未知错误',
+        results: null,
+        isLoading: false
+      }));
+    }
   };
 
   return {
     state,
+    showSuccess,
     fileInputRef,
     setSqlQuery,
     handleFileUpload,

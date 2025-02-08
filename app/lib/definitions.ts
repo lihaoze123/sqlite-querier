@@ -1,6 +1,16 @@
+export type TableSchema = {
+  name: string;
+  columns: {
+    name: string;
+    type: string;
+  }[];
+};
+
 export type DatabaseState = {
   sqlQuery: string;
-  dbFile: ArrayBuffer | undefined;
   error: string | null;
+  results: any | null;
+  isLoading: boolean;
+  schemaInfo: TableSchema[] | null;
 };
 

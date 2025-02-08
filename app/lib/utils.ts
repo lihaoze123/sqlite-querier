@@ -22,3 +22,4 @@ export function exportFile(file: ArrayBuffer, fileName: string) {
     URL.revokeObjectURL(url);
   }, 100);
 }
+
