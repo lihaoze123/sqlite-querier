@@ -17,7 +17,7 @@ export default function Editor({ value, onChange }: EditorProps) {
       width="100%"
       height="100%"
       className="rounded-lg border-2 border-gray-200"
-      defaultValue={`// 查看表结构\nSELECT * FROM sqlite_master`}
+      defaultValue={`// 查看表结构\nSELECT * FROM sqlite_master;`}
       options={{
         minimap: { enabled: false },
         fontSize: 14,
