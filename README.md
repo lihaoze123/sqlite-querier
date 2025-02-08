@@ -1,6 +1,6 @@
+![SQLite Querier Logo](./public/logo.png)
+
 <div align="center">
-  <img src="https://cdn.simpleicons.org/sqlite/003B57" alt="SQLite Logo" width="100"/>
-  <h1>SQLite Online Query Tool</h1>
   <p>A lightweight tool for executing SQLite queries directly in your browser</p>
 </div>
 

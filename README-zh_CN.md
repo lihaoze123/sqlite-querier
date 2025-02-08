@@ -1,6 +1,5 @@
+![SQLite Querier Logo](./public/logo.png)
 <div align="center">
-  <img src="https://cdn.simpleicons.org/sqlite/003B57" alt="SQLite Logo" width="100"/>
-  <h1>SQLite 在线查询工具</h1>
   <p>直接在浏览器中执行 SQLite 查询的轻量级工具</p>
 </div>
 
