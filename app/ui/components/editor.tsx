@@ -15,9 +15,7 @@ export default function Editor({ value, onChange }: EditorProps) {
         onChange={(value) => onChange(value ?? "")}
         language="sql"
         theme="vs-light"
-        className="rounded-lg border-2 border-gray-200"
-        height="100%"
-        defaultValue={`-- 查看表结构\nSELECT * FROM sqlite_master;`}
+        defaultValue={`SELECT * FROM sqlite_master;`}
         options={{
           minimap: { enabled: false },
           fontSize: 14,

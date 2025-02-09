@@ -14,3 +14,20 @@ export type DatabaseState = {
   schemaInfo: TableSchema[] | null;
 };
 
+export interface PaginationState {
+  currentPage: number;
+  totalPages: number;
+  pageSize: number;
+}
+
+export interface PaginationProps {
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
+}
+
+export interface DataTableProps<T> {
+  results: T[];
+  pageSize?: number;
+}
+

@@ -21,7 +21,7 @@ export default function Page() {
   } = useDatabaseOperations();
 
   return (
-    <main className="flex flex-col items-center justify-start min-h-screen gap-4 p-2 md:p-4">
+    <main className="flex flex-col items-center justify-center min-h-screen gap-4 p-2 md:p-4">
       <div className="flex shrink-0 items-center justify-center rounded-lg p-2 md:p-4">
         <SQLiteLogo />
       </div>
@@ -34,7 +34,7 @@ export default function Page() {
           <UpdateSuccess showSuccess={showSuccess} />
         </div>
         <div className="flex flex-col w-full gap-4">
-          <div className="w-full h-[300px] md:h-[500px]">
+          <div className="w-full h-[300px] md:h-[500px] overflow-hidden rounded-lg border-[1px] border-gray-300">
             <Editor value={state.sqlQuery} onChange={setSqlQuery} />
           </div>
           <DatabaseControls

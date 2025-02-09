@@ -14,6 +14,21 @@ import {
 } from "@/app/ui/components/table"
 
 export default function SchemaInfo({ schemaInfo }: { schemaInfo: any }) {
+  if (!schemaInfo || schemaInfo.length === 0) {
+    return (
+      <div className="w-full px-2 md:px-4">
+        <Card className="bg-card">
+          <CardContent className="pt-6">
+            <div className="text-center text-muted-foreground">
+              <p className="text-lg">数据库中暂无表格</p>
+              <p className="mt-2">请先创建表格或导入数据库文件</p>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
   return (
     <div className="w-full px-2 md:px-4">
       <h2 className="text-lg md:text-xl font-bold mb-4">数据库结构</h2>
