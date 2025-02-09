@@ -3,7 +3,6 @@ import { DatabaseState } from "@/app/lib/definitions";
 import { exportFile } from "@/app/lib/utils";
 import { executeQuery, uploadDb, createNewDb, exportDb, getSchemaInfo } from "@/app/lib/actions";
 import { useSearchParams, useRouter } from "next/navigation";
-import { PaginationState } from "./definitions";
 
 export const useDatabaseOperations = () => {
   const router = useRouter();

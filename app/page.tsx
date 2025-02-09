@@ -7,8 +7,9 @@ import { useDatabaseOperations } from "@/app/lib/hooks";
 import UpdateSuccess from "@/app/ui/components/database/update-success";
 import DataTable from "@/app/ui/components/database/table";
 import SchemaInfo from "@/app/ui/components/database/schema-info";
+import { Suspense } from "react";
 
-export default function Page() {
+function PageContent() {
   const {
     state,
     showSuccess,
@@ -56,5 +57,13 @@ export default function Page() {
         </div>
       </div>
     </main>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense fallback={<div className="flex items-center justify-center min-h-screen">加载中...</div>}>
+      <PageContent />
+    </Suspense>
   );
 }

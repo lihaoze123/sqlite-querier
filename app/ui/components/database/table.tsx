@@ -17,21 +17,23 @@ import {
 import { TablePagination } from "./table-pagination";
 import { DataTableProps } from "@/app/lib/definitions";
 import { useSearchParams, useRouter } from "next/navigation";
+import { Suspense } from "react";
 
-export default function DataTable<T extends Record<string, any>>({ 
+function TableContent<T extends Record<string, any>>({
   results,
-  pageSize = 5
+  pageSize = 5,
 }: DataTableProps<T>) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const currentPage = searchParams.get("page")
+    ? parseInt(searchParams.get("page") as string)
+    : 1;
+
   if (!results || results.length === 0) {
     return <div className="text-gray-500 p-4">没有查询或没有数据</div>;
   }
 
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const currentPage = searchParams.get('page') ? parseInt(searchParams.get('page') as string) : 1;
-
   const totalPages = Math.ceil(results.length / pageSize);
-
   const headers = Object.keys(results[0]);
   const paginatedResults = results.slice(
     (currentPage - 1) * pageSize,
@@ -41,7 +43,7 @@ export default function DataTable<T extends Record<string, any>>({
   const handlePageChange = (page: number) => {
     if (page >= 1 && page <= totalPages) {
       const params = new URLSearchParams(searchParams);
-      params.set('page', page.toString());
+      params.set("page", page.toString());
       router.push(`?${params.toString()}`);
     }
   };
@@ -67,28 +69,44 @@ export default function DataTable<T extends Record<string, any>>({
               </TableRow>
             </TableHeader>
             <TableBody>
-              {paginatedResults.map((row, rowIndex) => (
-                <TableRow key={rowIndex}>
-                  {headers.map((header) => (
-                    <TableCell
-                      key={header}
-                      className="whitespace-nowrap truncate max-w-[200px] px-2"
-                    >
-                      {row[header]?.toString() || ""}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))}
+              {paginatedResults.map((row, rowIndex) => {
+                return (
+                  <TableRow key={rowIndex}>
+                    {headers.map((header) => {
+                      const str = row[header]?.toString() || "";
+                      const value = str;
+                      return (
+                        <TableCell
+                          key={header}
+                          className="whitespace-nowrap px-2"
+                        >
+                          {value}
+                        </TableCell>
+                      );
+                    })}
+                  </TableRow>
+                );
+              })}
             </TableBody>
           </Table>
         </CardContent>
       </Card>
-      
+
       <TablePagination
         currentPage={currentPage}
         totalPages={totalPages}
         onPageChange={handlePageChange}
       />
     </>
+  );
+}
+
+export default function DataTable<T extends Record<string, any>>(
+  props: DataTableProps<T>
+) {
+  return (
+    <Suspense fallback={<div>加载中...</div>}>
+      <TableContent {...props} />
+    </Suspense>
   );
 }
